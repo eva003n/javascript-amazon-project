@@ -1,6 +1,7 @@
 /*---------------------------------------------------- */
 /*Importing a module */
-import {cart} from '../data/cart.js'/*file path of module to import and use */
+import { cart } from '../data/cart.js'/*file path of module to import and use */
+import { products } from '../data/products.js';
 /*All the imports should be at the top of a file */
 /*For module to work we need live server */
 
