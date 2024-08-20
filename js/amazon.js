@@ -1,74 +1,16 @@
 /*---------------------------------------------------- */
 /*Importing a module */
-import { cart } from '../data/cart.js'/*file path of module to import and use */
-import { products } from '../data/products.js';
+
+
+import { cart, addToCart } from "../data/cart.js"; /*file path of module to import and use */
+import { products } from "../data/products.js";
+
+
 /*All the imports should be at the top of a file */
 /*For module to work we need live server */
-
-
 /*-----------------------------------------------------*/
-/*const products = [
-  {
-    image: "images/products/athletic-cotton-socks-6-pairs.jpg",
-    name: " Black and Gray Athletic Cotton Socks - 6 Pairs",
-    rating: {
-      stars: 4.5,
-      count: 87,
-    },
-    priceCents: 1090,
-  },
-  {
-    image: "images/products/intermediate-composite-basketball.jpg",
-    name: " Intermediate Size Basketball",
-    rating: {
-      stars: 4,
-      count: 127,
-    },
-    priceCents: 2095,
-  },
-  {
-    image: "images/products/adults-plain-cotton-tshirt-2-pack-teal.jpg",
-    name: "Adults Plain Cotton T-Shirt - 2 Pack",
-    rating: {
-      stars: 4.5,
-      count: 56,
-    },
-    priceCents: 799,
-  },
-  {
-    image:"images/products/black-2-slot-toaster.jpg",
-    name:'2 Slot Toaster - Black',
-    rating: {
-        stars: 5,
-        count:2197,
 
-    },
-    priceCents: 1899
-
-  },
-  {
-    image: 'images/products/6-piece-white-dinner-plate-set.jpg',
-    name: '6 Piece White Dinner Plate Set',
-    rating: {
-        stars: 4,
-        count: 37,
-    },
-    priceCents: 2067
-  },
-  {
-    image: 'images/products/6-piece-non-stick-baking-set.webp',
-    name: '6-Piece Nonstick, Carbon Steel Oven Bakeware Baki',
-    rating: {
-        stars:4.5,
-        count:175
-    },
-    priceCents: 3499,
-
-  },
- 
-
-];*/
-let productsHtml = ''
+let productsHtml = "";
 products.forEach((product) => {
   productsHtml += ` 
   <div class="product-container">
@@ -93,7 +35,9 @@ products.forEach((product) => {
             }</div>
           </div>
 
-          <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
+          <div class="product-price">$${(product.priceCents / 100).toFixed(
+            2
+          )}</div>
 
           <div class="product-quantity-container">
             <select class="js-quantity-selector-${product.Id}">
@@ -121,43 +65,25 @@ products.forEach((product) => {
           data-product-id="${product.id}"
           >Add to Cart</button>
         </div>`;
-
-});
- 
-document.querySelector('.js-products-grid').innerHTML = productsHtml;
-
-document.querySelectorAll('.js-add-to-cart').forEach((button) => {
-    button.addEventListener('click', () => {
-      const productId = button.dataset.productId;/*the value in the data attribute gets converted from kebab-case to camelcase */
-
-      let matchingItem;//loop via the cart and check if the the item is in the cart 
-      cart.forEach((item) => {
-        if (productId === item.productId) {
-          matchingItem = item;
-
-        }
-
-      })/*if item is already in the cart we increment quantity by 1 */
-      if (matchingItem) {
-        
-        matchingItem.quantity += 1;
-      }else {
-        cart.push({
-          productId:productId,
-          quantity: 1,
-  
-        });
-      }
-        
-        let cartQuantity = 0;
-        cart.forEach((product) => {
-          cartQuantity += product.quantity;
-          document.querySelector('.js-cart-quantity').innerHTML = cartQuantity;
-
-        });
-
-      
-     
 });
 
+document.querySelector(".js-products-grid").innerHTML = productsHtml;
+
+
+function updateCartQuantity() {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+  });
+}
+
+document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  button.addEventListener("click", () => {
+    const productId =
+      button.dataset
+        .productId; /*the value in the data attribute gets converted from kebab-case to camelcase */
+    addToCart(productId);
+    updateCartQuantity();
+  });
 });
