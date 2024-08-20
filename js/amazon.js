@@ -1,3 +1,11 @@
+/*---------------------------------------------------- */
+/*Importing a module */
+import {cart} from '../data/cart.js'/*file path of module to import and use */
+/*All the imports should be at the top of a file */
+/*For module to work we need live server */
+
+
+/*-----------------------------------------------------*/
 /*const products = [
   {
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -87,7 +95,7 @@ products.forEach((product) => {
           <div class="product-price">$${(product.priceCents / 100).toFixed(2)}</div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector-${product.Id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -130,6 +138,7 @@ document.querySelectorAll('.js-add-to-cart').forEach((button) => {
 
       })/*if item is already in the cart we increment quantity by 1 */
       if (matchingItem) {
+        
         matchingItem.quantity += 1;
       }else {
         cart.push({
