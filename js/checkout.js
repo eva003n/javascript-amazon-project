@@ -1,8 +1,35 @@
-import { cart } from "../data/cart.js";
+import { cart, removeFromCart,  updateCartQuantity } from "../data/cart.js";
 import { products } from "../data/products.js";
 import {formatCurrency} from './utils/money.js'
+// import dayjs from ' https://unpkg.com/dayjs@1.11.10/esm/index.js';
 
-let cartSummary;
+// console.log(dayjs())
+let cartSummary = '';
+
+
+
+  if (cart.length === 0) {
+    cartSummary += `
+    <div class="empty-cart">
+      <div class="image">
+      <img src="images/icons/kettle-desaturated._CB445243794_.svg"/>
+      </div>
+      <div >
+          <h2>Your cart is empty</h2>
+          <p>Shop today's deals</p>
+           <div class="buttons">
+          <button class="sign-in">Sign in to your account</button>
+          <button class="sign-up">Sign up now</button>
+          </div>
+      </div>
+    </div>
+  
+    
+    
+    `
+  
+  }
+
 cart.forEach((cartItem) => {
     const productId = cartItem.productId;
     let matchingProduct;
@@ -14,7 +41,7 @@ cart.forEach((cartItem) => {
     });
     
     cartSummary += `
-     <div class="cart-item-container">
+     <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
               Delivery date: Wednesday, June 15
             </div>
@@ -37,7 +64,7 @@ cart.forEach((cartItem) => {
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary">
+                  <span class="delete-quantity-link link-primary js-delete" data-product-id="${matchingProduct.id}" >
                     Delete
                   </span>
                 </div>
@@ -93,6 +120,21 @@ cart.forEach((cartItem) => {
     `
 });
 
-
 document.querySelector('.js-order-summary').innerHTML = cartSummary;
-console.log(cartSummary);
+const cartQuantity = updateCartQuantity();
+document.querySelector('.js-checkout-cart-quantity').innerHTML = `${cartQuantity} Items`
+
+document.querySelectorAll('.js-delete').forEach( (link) => {
+  link.addEventListener('click', () => {
+    const {productId} = link.dataset;
+     removeFromCart(productId);
+    const cartItem = document.querySelector(`.js-cart-item-container-${productId}`);
+    cartItem.remove();
+    const cartQuantity = updateCartQuantity();
+   document.querySelector('.js-checkout-cart-quantity').innerHTML = `${cartQuantity} Items`;
+    
+  
+  })
+  
+  });
+

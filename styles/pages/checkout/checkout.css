@@ -209,3 +209,49 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+.empty-cart {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+.empty-cart .sign-in {
+/* height: 40px; */
+  border-radius: 20px;
+  padding: .7em 1.2em;
+  border: none;
+  background: rgb(255, 216, 20);;
+  transition: all .3s ease-in-out;
+}
+.empty-cart .sign-in:hover{
+  background: #000;
+  color: whitesmoke;
+}
+.empty-cart .sign-up {
+  /* max-height: 40px; */
+  border-radius: 20px;
+  padding: .4em 1em;
+  background:white;
+  outline: 1px solid black;
+  transition: all .3s ease-in-out;
+  border: none;
+}
+.empty-cart .sign-up:hover  {
+  background: BLACK;;
+  outline: none;
+  color: whitesmoke;
+
+}
+
+.buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin: 1rem auto;
+  
+}
+@media (max-width: 1000px) {
+  .empty-cart {
+    grid-template-columns: 1fr;
+  }
+}
+

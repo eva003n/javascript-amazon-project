@@ -2,7 +2,7 @@
 /*Importing a module */
 
 
-import { cart, addToCart } from "../data/cart.js"; /*file path of module to import and use */
+import { cart, addToCart, updateCartQuantity } from "../data/cart.js"; /*file path of module to import and use */
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
@@ -67,15 +67,10 @@ products.forEach((product) => {
 });
 
 document.querySelector(".js-products-grid").innerHTML = productsHtml;
+const cartQuantity = updateCartQuantity();
+document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 
 
-function updateCartQuantity() {
-  let cartQuantity = 0;
-  cart.forEach((cartItem) => {
-    cartQuantity += cartItem.quantity;
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
-  });
-}
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   button.addEventListener("click", () => {
@@ -83,6 +78,9 @@ document.querySelectorAll(".js-add-to-cart").forEach((button) => {
       button.dataset
         .productId; /*the value in the data attribute gets converted from kebab-case to camelcase */
     addToCart(productId);
-    updateCartQuantity();
+    const cartQuantity = updateCartQuantity();
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+    console.log(cart);
+  
   });
 });
