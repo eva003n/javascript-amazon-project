@@ -3,7 +3,7 @@ import { products,getProduct } from "../../data/products.js";
 import formatCurrency from '../utils/money.js'
 import dayjs from ' https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from "../../data/delivery-options.js";
-
+import { renderPaymentSummary } from './payment-summary.js'
 
 
 
@@ -69,7 +69,7 @@ cart.forEach((cartItem) => {
                   ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  ${formatCurrency(matchingProduct.priceCents)}
+                  $${formatCurrency(matchingProduct.priceCents)}
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -152,10 +152,13 @@ document.querySelectorAll('.js-delete').forEach( (link) => {
      removeFromCart(productId);
     const cartItem = document.querySelector(`.js-cart-item-container-${productId}`);
     cartItem.remove();
+
+    renderPaymentSummary();
+
     const cartQuantity = updateCartQuantity();
    document.querySelector('.js-checkout-cart-quantity').innerHTML = `${cartQuantity} Items`;
     
-  
+ 
   });
   
   
@@ -168,6 +171,7 @@ document.querySelectorAll('.js-delivery-option').forEach((option) => {
     updateDeliveryOption(productId, deliveryOptionId);
     
      renderOrderSummary();
+     renderPaymentSummary();
      
 
   });
