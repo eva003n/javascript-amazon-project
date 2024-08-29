@@ -1,4 +1,4 @@
-import { cart, removeFromCart,  updateCartQuantity } from "../data/cart.js";
+import { cart, removeFromCart,  updateCartQuantity, updateDeliveryOption } from "../data/cart.js";
 import { products } from "../data/products.js";
 import formatCurrency from './utils/money.js'
 import dayjs from ' https://unpkg.com/dayjs@1.11.10/esm/index.js';
@@ -117,7 +117,7 @@ const isChecked = deliveryOption.id === cartItem.deliveryOptionId
     html +=
 
     `
-         <div class="delivery-options"> 
+         <div class="delivery-options js-delivery-option" data-product-id="${matchingProduct.id}" data-delivery-option-id="${deliveryOption.id}"> 
 
                 <div class="delivery-option">
                   <input type="radio" class="delivery-option-input"
@@ -163,3 +163,10 @@ document.querySelectorAll('.js-delete').forEach( (link) => {
   
   });
 
+document.querySelectorAll('.js-delivery-option').forEach((option) => {
+  option.addEventListener('click', () => {
+    const {productId, deliveryOptionId} = option.dataset;
+    updateDeliveryOption(productId, deliveryOptionId)
+
+  });
+});
