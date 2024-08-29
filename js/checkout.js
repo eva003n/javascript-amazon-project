@@ -5,8 +5,11 @@ import dayjs from ' https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions } from "../data/delivery-options.js";
 
 
-let cartSummary = '';
 
+
+
+function renderOrderSummary() {
+  let cartSummary = '';
 
 
   if (cart.length === 0) {
@@ -30,6 +33,11 @@ let cartSummary = '';
     `
   
   }
+
+
+
+ 
+
 
 cart.forEach((cartItem) => {
     const productId = cartItem.productId;
@@ -60,7 +68,7 @@ cart.forEach((cartItem) => {
     cartSummary += `
      <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
             <div class="delivery-date">
-              ${dateString};
+              ${dateString}
             </div>
 
             <div class="cart-item-details-grid">
@@ -159,14 +167,24 @@ document.querySelectorAll('.js-delete').forEach( (link) => {
    document.querySelector('.js-checkout-cart-quantity').innerHTML = `${cartQuantity} Items`;
     
   
-  })
+  });
+  
   
   });
+ 
 
 document.querySelectorAll('.js-delivery-option').forEach((option) => {
   option.addEventListener('click', () => {
     const {productId, deliveryOptionId} = option.dataset;
-    updateDeliveryOption(productId, deliveryOptionId)
+    updateDeliveryOption(productId, deliveryOptionId);
+    
+     renderOrderSummary();
+     
 
   });
+
 });
+
+}
+
+renderOrderSummary();
