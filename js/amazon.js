@@ -3,13 +3,17 @@
 
 
 import { cart, addToCart, updateCartQuantity } from "../data/cart.js"; /*file path of module to import and use */
-import { products } from "../data/products.js";
+import { products, getProductDetails } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
 
 /*All the imports should be at the top of a file */
 /*For module to work we need live server */
 /*-----------------------------------------------------*/
+
+getProductDetails(renderLoadedProducts);
+
+function renderLoadedProducts() {
 
 let productsHtml = "";
 products.forEach((product) => {
@@ -52,6 +56,7 @@ products.forEach((product) => {
               <option value="10">10</option>
             </select>
           </div>
+          ${product.extraUnfoHtml()}
 
           <div class="product-spacer"></div>
 
@@ -91,8 +96,9 @@ const timeOutId = setTimeout(() => {
 
 addedMessageTimeouts[productId] = timeOutId;
 
-    const cartQuantity = updateCartQuantity();
+    const cartQuantity = updateCartQuantity(cart);
     document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
 
   });
 });
+}

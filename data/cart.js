@@ -74,6 +74,9 @@ export function removeFromCart (productId) {
   saveToStorage();
  
 }
+/*making the delivery options interactive */
+/*when we select a delivery option we update the deliveryOptionId in the cart */
+/*to do this we need the productId to identify the we want to change its deliveryOptionId and the deliveryid to know what delivery option to change ur product to */
 
 export function updateDeliveryOption (productId, deliveryOptionId) {
   let matchingItem;

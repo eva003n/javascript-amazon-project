@@ -1,3 +1,4 @@
+ import formatCurrency from "../js/utils/money.js";
  export function getProduct(productId){
   let matchingProduct; 
   
@@ -9,8 +10,120 @@
   });
   return matchingProduct;
 }
+class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
 
-export const products = [
+  }
+  getPrice(price) {
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+  extraUnfoHtml() {
+    return '';
+  }
+}
+class Clothing extends Product {
+  sizeChartLink;
+
+  constructor(productDetails) {
+    super(productDetails);
+    this.sizeChartLink = productDetails.sizeChartLink;
+  }
+
+  extraUnfoHtml() {
+    return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`
+
+  }
+
+}
+
+export let products = [];
+
+ /*export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener('load', () => {
+  // products = xhr.response;
+  products = JSON.parse(xhr.response).map((productDetails) => {
+    if(productDetails.type === 'clothing') {
+      return new Clothing(productDetails);
+  
+    }
+    return new Product(productDetails);
+    
+    
+  });
+  fun();
+
+  });
+  xhr.open('GET', '../../backend/products.json');
+  xhr.send();//asynchronous
+
+
+}*/
+export async function getProductDetails(fun) {
+  const requestUrl = '../../backend/products.json';
+  const request = new Request(requestUrl);
+
+  const response = await fetch(request);
+    products = await response.json();
+   
+   products = products.map((productDetails) => {
+    if(productDetails.type === 'clothing') {
+      return new Clothing(productDetails);
+  
+    }
+    return new Product(productDetails);
+    
+    
+  });
+  
+  fun();
+
+  
+}
+
+
+
+// loadProducts();
+
+/* const date = new Date();
+console.log(date);
+const time = date.toLocaleTimeString();
+console.log(time);*/
+
+/*const obj2 = {
+  a:2,
+  b:this.a,//undefined,obj2 not created yet
+  this keyword can only be used inside a method
+
+};*/
+/*
+function logThis() {
+  console.log(this);
+}
+logThis();//undefined, no object to point to
+logThis.call('hello');//using call method we can change this to whatever we want
+console.log(this);//value of this here is the same as in the method below
+const object3 = {
+  method:() => {
+    console.log(this);
+//arrow functions do not change the value of this
+  }
+}
+object3.method();  
+*/
+
+
+/*export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -669,4 +782,12 @@ export const products = [
       "mens"
     ]
   }
-];
+].map((productDetails) => {
+  if(productDetails.type === 'clothing') {
+    return new Clothing(productDetails);
+
+  }
+  return new Product(productDetails);
+  
+});
+*/

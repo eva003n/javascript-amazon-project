@@ -1,5 +1,5 @@
 import { cart, removeFromCart,  updateCartQuantity, updateDeliveryOption } from "../../data/cart.js";
-import { products,getProduct } from "../../data/products.js";
+import {getProduct } from "../../data/products.js";
 import formatCurrency from '../utils/money.js'
 import dayjs from ' https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption } from "../../data/delivery-options.js";
@@ -50,9 +50,9 @@ cart.forEach((cartItem) => {
 
    
   
-     const today = dayjs();
-     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-      const dateString =  deliveryDate.format('dddd, MMMM, D');
+     const today = dayjs();/*this function returns an object with todays date */
+     const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');/*calculate the date   */
+      const dateString =  deliveryDate.format('dddd, MMMM, D');/*display date in an easy to read format */
     
     cartSummary += `
      <div class="cart-item-container js-cart-item-container-${matchingProduct.id}">
@@ -69,7 +69,7 @@ cart.forEach((cartItem) => {
                   ${matchingProduct.name}
                 </div>
                 <div class="product-price">
-                  $${formatCurrency(matchingProduct.priceCents)}
+                ${matchingProduct.getPrice(matchingProduct.priceCents)}
                 </div>
                 <div class="product-quantity">
                   <span>
@@ -105,11 +105,12 @@ function deliveryOptionsHtml (matchingProduct, cartItem ) {
   let html = '';
 
   deliveryOptions.forEach((deliveryOption) => {
-    const today = dayjs();
-    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');
-    const dateString =  deliveryDate.format('dddd, MMMM, D');
+
+    const today = dayjs();/*use the dayjs library to get the current day you today */
+    const deliveryDate = today.add(deliveryOption.deliveryDays, 'days');/*using dayjs to calculate the the delivery date */
+    const dateString =  deliveryDate.format('dddd, MMMM, D');/*using the dayjs library todisplay the date in a readable format */
     const priceString = deliveryOption.priceCents === 0 ? 'FREE': `$${formatCurrency(deliveryOption.priceCents)} -`;
-const isChecked = deliveryOption.id === cartItem.deliveryOptionId
+const isChecked = deliveryOption.id === cartItem.deliveryOptionId /*mark an item as checked if the delivery options match */
 
     html +=
 
@@ -149,11 +150,12 @@ document.querySelector('.js-checkout-cart-quantity').innerHTML = `${cartQuantity
 document.querySelectorAll('.js-delete').forEach( (link) => {
   link.addEventListener('click', () => {
     const {productId} = link.dataset;
-     removeFromCart(productId);
+
+     removeFromCart(productId);/*upgate the model mvc */
     const cartItem = document.querySelector(`.js-cart-item-container-${productId}`);
     cartItem.remove();
 
-    renderPaymentSummary();
+    renderPaymentSummary();/*regenerate the view */
 
     const cartQuantity = updateCartQuantity();
    document.querySelector('.js-checkout-cart-quantity').innerHTML = `${cartQuantity} Items`;
