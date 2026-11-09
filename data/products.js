@@ -1,12 +1,11 @@
- import formatCurrency from "../js/utils/money.js";
- export function getProduct(productId){
-  let matchingProduct; 
-  
+import formatCurrency from "../js/utils/money.js";
+export function getProduct(productId) {
+  let matchingProduct;
+
   products.forEach((product) => {
-    if(product.id === productId) {
+    if (product.id === productId) {
       matchingProduct = product;
     }
-
   });
   return matchingProduct;
 }
@@ -22,13 +21,12 @@ class Product {
     this.name = productDetails.name;
     this.rating = productDetails.rating;
     this.priceCents = productDetails.priceCents;
-
   }
   getPrice(price) {
     return `$${formatCurrency(this.priceCents)}`;
   }
   extraUnfoHtml() {
-    return '';
+    return "";
   }
 }
 class Clothing extends Product {
@@ -40,15 +38,15 @@ class Clothing extends Product {
   }
 
   extraUnfoHtml() {
-    return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`
-
+    return `<a href="${this.sizeChartLink}" target="_blank">Size chart</a>`;
   }
-
 }
 
 export let products = [];
 
- /*export function loadProducts(fun) {
+/*http request using xmlHttpRequest */
+
+/*export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
   xhr.addEventListener('load', () => {
   // products = xhr.response;
@@ -69,29 +67,24 @@ export let products = [];
 
 
 }*/
+
+/*http request using fetch Api */
 export async function getProductDetails(fun) {
-  const requestUrl = '../../backend/products.json';
+  const requestUrl = "../../backend/products.json";
   const request = new Request(requestUrl);
 
   const response = await fetch(request);
-    products = await response.json();
-   
-   products = products.map((productDetails) => {
-    if(productDetails.type === 'clothing') {
+  products = await response.json();
+
+  products = products.map((productDetails) => {
+    if (productDetails.type === "clothing") {
       return new Clothing(productDetails);
-  
     }
     return new Product(productDetails);
-    
-    
   });
-  
+
   fun();
-
-  
 }
-
-
 
 // loadProducts();
 
@@ -121,7 +114,6 @@ const object3 = {
 }
 object3.method();  
 */
-
 
 /*export const products = [
   {
@@ -782,12 +774,4 @@ object3.method();
       "mens"
     ]
   }
-].map((productDetails) => {
-  if(productDetails.type === 'clothing') {
-    return new Clothing(productDetails);
-
-  }
-  return new Product(productDetails);
-  
-});
-*/
+]*/
